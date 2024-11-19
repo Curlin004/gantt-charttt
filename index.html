@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gantt-Chart</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .gantt-container {
+            margin: 20px;
+        }
+
+        .gantt-table {
+            display: grid;
+            grid-template-columns: 150px repeat(12, 1fr);
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .gantt-table-header,
+        .gantt-row {
+            display: contents;
+        }
+
+        .gantt-cell {
+            border: 1px solid #ccc;
+            padding: 5px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        .gantt-bar {
+            position: relative;
+            height: 20px;
+            margin: 5px 0;
+            background-color: #87CEEB;
+            text-align: center;
+            color: white;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .gantt-bar:hover {
+            opacity: 0.8;
+        }
+
+        .add-row, .add-column {
+            margin: 10px;
+            padding: 5px 10px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-row:hover, .add-column:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="gantt-container">
+        <h1>Gantt-Chart</h1>
+        <div>
+            <button class="add-row">Zeile hinzufügen</button>
+            <button class="add-column">Spalte hinzufügen</button>
+        </div>
+        <div class="gantt-table">
+            <!-- Header -->
+            <div class="gantt-table-header">
+                <div class="gantt-cell">Projektphasen</div>
+                <div class="gantt-cell">Oktober</div>
+                <div class="gantt-cell">November</div>
+                <div class="gantt-cell">Dezember</div>
+                <div class="gantt-cell">Januar</div>
+                <div class="gantt-cell">Februar</div>
+                <div class="gantt-cell">März</div>
+            </div>
+            <!-- Row -->
+            <div class="gantt-row">
+                <div class="gantt-cell">Kick-Off</div>
+                <div class="gantt-cell"></div>
+                <div class="gantt-cell">
+                    <div class="gantt-bar" style="width: 100%;">Projektstart</div>
+                </div>
+                <div class="gantt-cell"></div>
+                <div class="gantt-cell"></div>
+                <div class="gantt-cell"></div>
+                <div class="gantt-cell"></div>
+            </div>
+            <!-- Add more rows dynamically -->
+        </div>
+    </div>
+
+    <script>
+        const ganttContainer = document.querySelector('.gantt-table');
+
+        // Add a new row
+        document.querySelector('.add-row').addEventListener('click', () => {
+            const row = document.createElement('div');
+            row.className = 'gantt-row';
+            row.innerHTML = `
+                <div class="gantt-cell">Neue Zeile</div>
+                ${'<div class="gantt-cell"></div>'.repeat(6)}
+            `;
+            ganttContainer.appendChild(row);
+        });
+
+        // Add a new column
+        document.querySelector('.add-column').addEventListener('click', () => {
+            const header = document.querySelector('.gantt-table-header');
+            const newHeaderCell = document.createElement('div');
+            newHeaderCell.className = 'gantt-cell';
+            newHeaderCell.textContent = 'Neue Spalte';
+            header.appendChild(newHeaderCell);
+
+            const rows = document.querySelectorAll('.gantt-row');
+            rows.forEach(row => {
+                const newCell = document.createElement('div');
+                newCell.className = 'gantt-cell';
+                row.appendChild(newCell);
+            });
+        });
+    </script>
+</body>
+</html>
